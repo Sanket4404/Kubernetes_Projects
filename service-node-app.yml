@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-my-nodedb-app
+
+spec:
+  selector:
+    app: nodedb-app
+
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 3000
+
+  type: LoadBalancer

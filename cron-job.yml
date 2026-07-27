@@ -1,0 +1,82 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox:1.28
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+
+
+
+
+
+
+
+
+
+
+
+
+
+# apiVersion: batch/v1
+# kind: CronJob
+
+# metadata:
+#   name: min-backup
+#   namespace: nginx
+
+# spec:
+#   schedule: "*/2 * * * *"
+
+#   jobTemplate:
+#     spec:
+#       template:
+#         metadata:
+#           labels:
+#             app: min-backup
+
+#         spec:
+#           restartPolicy: OnFailure
+
+#           containers:
+#           - name: backup-container
+#             image: busybox:latest
+#             command:
+#             - "sh"
+#             - "-c"
+#             - >
+#               echo "Backup Started";
+#               mkdir -p /backups &&
+#               mkdir -p /demo-data &&
+#               cp -r /demo-data/* /backups/ &&
+#               echo "Backup Completed";
+
+#             volumeMounts:
+#             - name: data-volume
+#               mountPath: /demo-data
+
+#             - name: backup-volume
+#               mountPath: /backups
+
+#           volumes:
+#           - name: data-volume
+#             hostPath:
+#               path: /demo-data
+#               type: DirectoryOrCreate
+
+#           - name: backup-volume
+#             hostPath:
+#               path: /backups
+#               type: DirectoryOrCreate

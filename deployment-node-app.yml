@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nodedb-app
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: nodedb-app
+
+  template:
+    metadata:
+      labels:
+        app: nodedb-app
+    spec:
+      containers:
+        - name: nodedb-app
+          image: sds04/db-demo-app:02 #Run this container 
+        - name: mongodb
+          image: mongo:latest
+
+---
+
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-my-nodedb-app
+
+spec:
+  selector:
+    app: nodedb-app
+
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 3000
+
+  type: LoadBalancer
